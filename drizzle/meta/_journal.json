@@ -8,6 +8,13 @@
       "when": 1765822801318,
       "tag": "0000_daily_cobalt_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765823393862,
+      "tag": "0001_brief_princess_powerful",
+      "breakpoints": true
     }
   ]
 }

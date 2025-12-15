@@ -3,7 +3,21 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/index"; // your drizzle instance
 
 export const auth = betterAuth({
-    database: drizzleAdapter(db, {
-        provider: "pg", // or "mysql", "sqlite"
-    }),
+  database: drizzleAdapter(db, {
+    provider: "pg", // or "mysql", "sqlite"
+  }),
+
+  emailAndPassword: {
+    enabled: false,
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+    spotify: {
+      clientId: process.env.SPOTIFY_CLIENT_ID as string,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
+    },
+  },
 });
