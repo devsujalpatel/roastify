@@ -1,0 +1,46 @@
+{
+  "name": "roastify",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "dotenv": "^17.2.2",
+      "zod": "^4.1.13",
+      "typescript": "^5",
+      "@trpc/server": "^11.7.2",
+      "@trpc/client": "^11.7.2",
+      "ai": "^5.0.49",
+      "@ai-sdk/google": "^2.0.13",
+      "better-auth": "^1.4.7",
+      "drizzle-orm": "^0.45.1",
+      "@types/pg": "^8.15.6"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "check": "biome check --write .",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "turbo -F native dev",
+    "dev:web": "turbo -F web dev",
+    "db:push": "turbo -F @roastify/db db:push",
+    "db:studio": "turbo -F @roastify/db db:studio",
+    "db:generate": "turbo -F @roastify/db db:generate",
+    "db:migrate": "turbo -F @roastify/db db:migrate"
+  },
+  "dependencies": {
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "turbo": "^2.6.3",
+    "@biomejs/biome": "^2.2.0",
+    "typescript": "catalog:",
+    "@types/node": "^22.13.11"
+  },
+  "packageManager": "bun@1.3.2"
+}
