@@ -1,4 +1,4 @@
-import { nextCookies } from 'better-auth/next-js';
+import { nextCookies } from "better-auth/next-js";
 import { db } from "@roastify/db";
 import * as schema from "@roastify/db/schema/auth";
 import { betterAuth } from "better-auth";
@@ -10,9 +10,21 @@ export const auth = betterAuth({
 
     schema: schema,
   }),
-  trustedOrigins: [process.env.CORS_ORIGIN || ""],
+  // trustedOrigins: [process.env.CORS_ORIGIN || ""],
   emailAndPassword: {
-    enabled: true,
+    enabled: false,
   },
-  plugins: [nextCookies()]
+
+  socialProviders: {
+    spotify: {
+      clientId: process.env.SPOTIFY_CLIENT_ID as string,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
+  },
+
+  plugins: [nextCookies()],
 });
