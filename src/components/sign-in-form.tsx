@@ -45,11 +45,11 @@ export default function SignIn() {
   };
 
   return (
-    <Card className="max-w-md">
+    <Card className="w-[24rem]">
       <CardHeader>
-        <CardTitle className="text-lg md:text-xl">Sign In</CardTitle>
+        <CardTitle className="text-lg md:text-xl">Welcome to Roastify</CardTitle>
         <CardDescription className="text-xs md:text-sm">
-          Enter your email below to login to your account
+          Sign in to your account to continue
         </CardDescription>
       </CardHeader>
       <CardContent>
