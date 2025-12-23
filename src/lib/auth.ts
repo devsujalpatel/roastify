@@ -1,10 +1,12 @@
 import { betterAuth } from "better-auth";
 import { db } from "@/config";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import * as authSchema from "@/db/auth-schema";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg", // or "pg" or "mysql"
+    schema: authSchema,
   }),
   socialProviders: {
     google: {

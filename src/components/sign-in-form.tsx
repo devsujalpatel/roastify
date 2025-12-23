@@ -34,8 +34,9 @@ export default function SignIn() {
       if (method === "spotify") {
         await signInWithSpotify();
       }
-      toast.success("Sign in successful");
-      router.push("/");
+      
+      // toast.success("Sign in successful");
+      // router.push("/");
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
