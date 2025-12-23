@@ -7,14 +7,42 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
 import { useState } from "react";
-import { signIn } from "@/lib/auth-client";
+import {
+  signInWithGithub,
+  signInWithGoogle,
+  signInWithSpotify,
+} from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleClick = async (method: "google" | "github" | "spotify") => {
+    try {
+      setLoading(true);
+      if (method === "github") {
+        await signInWithGithub();
+      }
+      if (method === "google") {
+        await signInWithGoogle();
+      }
+      if (method === "spotify") {
+        await signInWithSpotify();
+      }
+      toast.success("Sign in successful");
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Card className="max-w-md">
@@ -36,22 +64,7 @@ export default function SignIn() {
               variant="outline"
               className={cn("w-full gap-2")}
               disabled={loading}
-              onClick={async () => {
-                await signIn.social(
-                  {
-                    provider: "google",
-                    callbackURL: "/dashboard",
-                  },
-                  {
-                    onRequest: (ctx) => {
-                      setLoading(true);
-                    },
-                    onResponse: (ctx) => {
-                      setLoading(false);
-                    },
-                  }
-                );
-              }}
+              onClick={() => handleClick("google")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -82,22 +95,7 @@ export default function SignIn() {
               variant="outline"
               className={cn("w-full gap-2")}
               disabled={loading}
-              onClick={async () => {
-                await signIn.social(
-                  {
-                    provider: "github",
-                    callbackURL: "/dashboard",
-                  },
-                  {
-                    onRequest: (ctx) => {
-                      setLoading(true);
-                    },
-                    onResponse: (ctx) => {
-                      setLoading(false);
-                    },
-                  }
-                );
-              }}
+              onClick={() => handleClick("github")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,22 +114,7 @@ export default function SignIn() {
               variant="outline"
               className={cn("w-full gap-2")}
               disabled={loading}
-              onClick={async () => {
-                await signIn.social(
-                  {
-                    provider: "spotify",
-                    callbackURL: "/dashboard",
-                  },
-                  {
-                    onRequest: (ctx) => {
-                      setLoading(true);
-                    },
-                    onResponse: (ctx) => {
-                      setLoading(false);
-                    },
-                  }
-                );
-              }}
+              onClick={() => handleClick("spotify")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
