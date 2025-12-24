@@ -1,3 +1,7 @@
+import { Navbar } from "@/components/navbar";
+
 export default function Page() {
-  return <h1>Welcome to Roastify</h1>
+  return <div className="flex h-screen">
+    <Navbar />
+  </div>
 }
