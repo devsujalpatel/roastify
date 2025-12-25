@@ -1,7 +1,21 @@
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Navbar } from "@/components/navbar";
+import { getQueryClient, trpc } from "@/trpc/server";
+import { ClientGreeting } from "../client-greeting";
 
 export default function Page() {
-  return <div className="flex h-screen">
-    <Navbar />
-  </div>
+  const queryClient = getQueryClient();
+  // void queryClient.prefetchQuery(
+  //   trpc.hello.queryOptions({
+  //     /** input */
+  //   }),
+  // );
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="flex h-screen">
+        <Navbar />
+      </div>
+      <ClientGreeting />
+    </HydrationBoundary>
+  );
 }
