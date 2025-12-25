@@ -10,7 +10,7 @@ export default async function AuthLayout({
   const session = useSession();
 
   if (session) {
-    redirect("/");
+    redirect("/dashboard");
   }
 
   return <>{children}</>;
