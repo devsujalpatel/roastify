@@ -1,7 +1,6 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Navbar } from "@/components/navbar";
 import { getQueryClient, trpc } from "@/trpc/server";
-import { ClientGreeting } from "../client-greeting";
 
 export default function Page() {
   const queryClient = getQueryClient();
@@ -15,7 +14,6 @@ export default function Page() {
       <div className="flex h-screen">
         <Navbar />
       </div>
-      <ClientGreeting />
     </HydrationBoundary>
   );
 }
