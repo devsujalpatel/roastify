@@ -1,17 +1,14 @@
-import { z } from 'zod';
-import { baseProcedure, createTRPCRouter } from '../init';
+import { baseProcedure, createTRPCRouter } from "../init";
+import { db } from "@/config";
+import { user } from "@/db";
+import { eq } from "drizzle-orm";
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
+  getUser: baseProcedure.query(() => {
+    return db
+      .select()
+      .from(user)
+      .where(eq(user.email, "sujal7455@gmail.com"));
+  }),
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
