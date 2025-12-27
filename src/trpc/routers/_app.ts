@@ -4,10 +4,7 @@ import { user } from "@/db";
 import { eq } from "drizzle-orm";
 export const appRouter = createTRPCRouter({
   getUser: baseProcedure.query(() => {
-    return db
-      .select()
-      .from(user)
-      .where(eq(user.email, "sujal7455@gmail.com"));
+    return db.select().from(user);
   }),
 });
 // export type definition of API
