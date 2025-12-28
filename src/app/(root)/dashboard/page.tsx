@@ -1,20 +1,12 @@
-"use client";
+import { caller } from "@/trpc/server";
+import { Client } from "../client";
 
-import { useTRPC } from "@/trpc/client";
-import { useQuery } from "@tanstack/react-query";
-
-const Dashboard = () => {
-  const trpc = useTRPC();
-  const { data: user } = useQuery(trpc.getUser.queryOptions());
+const Dashboard = async () => {
+  const users = await caller.getUser();
 
   return (
-    <div>
-      {user &&
-        user.map((u) => (
-          <div key={u.id}>
-            <h1 key={u.id}>Welcome, {u.name}!</h1>
-          </div>
-        ))}
+    <div className="flex h-screen justify-center items-center">
+      <Client users={users} />
     </div>
   );
 };
