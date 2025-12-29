@@ -1,5 +1,5 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { Client } from "../client";
+import { Client } from "../../client";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { Suspense } from "react";
 
@@ -16,7 +16,7 @@ const Dashboard = async () => {
         </Suspense>
       </HydrationBoundary>
     </div>
-  );
+  ); 
 };
 
 export default Dashboard;
