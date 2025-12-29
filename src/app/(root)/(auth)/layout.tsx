@@ -1,17 +1,24 @@
 "use client";
-import { redirect } from "next/navigation";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 
-export default async function AuthLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = useSession();
+  const router = useRouter();
+  const { data: session, isPending: isLoading } = useSession();
 
-  if (session) {
-    redirect("/dashboard");
-  }
+  useEffect(() => {
+    if (!isLoading && session) {
+      router.replace("/dashboard");
+    }
+  }, [session, isLoading, router]);
+
+  if (isLoading) return null; // ya spinner daal le
 
   return <>{children}</>;
 }

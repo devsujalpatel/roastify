@@ -9,11 +9,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { useState } from "react";
-import {
-  signInWithGithub,
-  signInWithGoogle,
-  signInWithSpotify,
-} from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -25,18 +21,18 @@ export default function SignIn() {
   const handleClick = async (method: "google" | "github" | "spotify") => {
     try {
       setLoading(true);
-      if (method === "github") {
-        await signInWithGithub();
-      }
-      if (method === "google") {
-        await signInWithGoogle();
-      }
-      if (method === "spotify") {
-        await signInWithSpotify();
-      }
-      
-      // toast.success("Sign in successful");
-      // router.push("/");
+      await signIn.social({
+        provider: method,
+        fetchOptions: {
+          onError: (error) => {
+            console.error(error);
+            toast.error("Something went wrong during sign in");
+          },
+          onSuccess: () => {
+            router.push("/dashboard");
+          },
+        },
+      });
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
@@ -48,7 +44,9 @@ export default function SignIn() {
   return (
     <Card className="w-[24rem]">
       <CardHeader>
-        <CardTitle className="text-lg md:text-xl">Welcome to Roastify</CardTitle>
+        <CardTitle className="text-lg md:text-xl">
+          Welcome to Roastify
+        </CardTitle>
         <CardDescription className="text-xs md:text-sm">
           Sign in to your account to continue
         </CardDescription>
