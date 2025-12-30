@@ -27,7 +27,7 @@ export const Client = () => {
   const { data: users } = useSuspenseQuery(trpc.getUser.queryOptions());
 
   return (
-    <div>
+    <div className="flex flex-col gap-4 items-center">
       <Button onClick={handleClick}>Sign Out</Button>
       {users.map((u) => (
         <div key={u.id}>

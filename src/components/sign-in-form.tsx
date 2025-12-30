@@ -9,30 +9,17 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { useState } from "react";
-import { signIn } from "@/lib/auth-client";
+import { socialSignIn } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
-  const handleClick = async (method: "google" | "github" | "spotify") => {
+  const handleClick = (method: "google" | "github" | "spotify") => {
     try {
       setLoading(true);
-      await signIn.social({
-        provider: method,
-        fetchOptions: {
-          onError: (error) => {
-            console.error(error);
-            toast.error("Something went wrong during sign in");
-          },
-          onSuccess: () => {
-            router.push("/dashboard");
-          },
-        },
-      });
+      socialSignIn(method);
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
