@@ -31,7 +31,7 @@ export async function GET() {
     }
 
     const res = await fetch(
-      "https://api.spotify.com/v1/me/top/tracks?limit=20&time_range=medium_term",
+      "https://api.spotify.com/v1/me/top/artists?limit=20&time_range=medium_term",
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -50,17 +50,14 @@ export async function GET() {
     const data = await res.json();
 
     return NextResponse.json({
-      items: data.items.map((track: any) => ({
-        id: track.id,
-        name: track.name,
-        artists: track.artists.map((a: any) => a.name),
-        popularity: track.popularity,
-        durationMs: track.duration_ms,
-        previewUrl: track.preview_url,
-        album: {
-          name: track.album.name,
-          image: track.album.images?.[0]?.url,
-        },
+      items: data.items.map((artist: any, index: number) => ({
+        rank: index + 1,
+        id: artist.id,
+        name: artist.name,
+        genres: artist.genres,
+        popularity: artist.popularity,
+        followers: artist.followers?.total,
+        image: artist.images?.[0]?.url,
       })),
     });
   } catch (err) {

@@ -23,6 +23,13 @@ export async function GET() {
       },
     });
 
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: "Connect your Spotify account" },
+        { status: 401 }
+      );
+    }
+
     const res = await fetch("https://api.spotify.com/v1/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
