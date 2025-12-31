@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { db } from "@/config";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import * as authSchema from "@/db/auth-schema";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -22,4 +23,5 @@ export const auth = betterAuth({
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
     },
   },
+  plugins: [nextCookies()],
 });
