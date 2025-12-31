@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 
 export async function GET() {
   try {
-    // 1️⃣ Get session (identity only)
     const sessionData = await auth.api.getSession({
       headers: {
         cookie: (await headers()).get("cookie") ?? "",
@@ -17,7 +16,6 @@ export async function GET() {
 
     const userId = sessionData.user.id;
 
-    // 2️⃣ Get Spotify access token (THIS IS CORRECT)
     const { accessToken } = await auth.api.getAccessToken({
       body: {
         providerId: "spotify",
@@ -25,7 +23,6 @@ export async function GET() {
       },
     });
 
-    // 3️⃣ Call Spotify API
     const res = await fetch("https://api.spotify.com/v1/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
