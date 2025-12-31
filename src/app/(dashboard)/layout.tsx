@@ -10,13 +10,18 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, isPending: isLoading } = useSession();
 
   useEffect(() => {
+    if (isLoading) return;
+
     if (!session) {
       router.replace("/login");
+      return;
     }
-  }, [session, router]);
+  }, [session, isLoading, router]);
+
+  if (isLoading || !session) return null;
 
   return <>{children}</>;
 }

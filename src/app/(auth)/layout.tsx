@@ -18,7 +18,8 @@ export default function AuthLayout({
     }
   }, [session, isLoading, router]);
 
-  if (isLoading) return null; // ya spinner daal le
+  // 🔑 Key line: don't render login UI if redirecting
+  if (isLoading || session) return null;
 
   return <>{children}</>;
 }
