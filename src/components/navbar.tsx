@@ -1,14 +1,16 @@
+import Link from "next/link";
 import { Button } from "./ui/button";
 
 export const Navbar = () => {
   return (
-    <header>
-      <div>
-        <h1>Roastify</h1>
-      </div>
+    <header className="flex items-center justify-between p-4 border-b w-full">
+      <Link href="/" className="text-decoration-none">
+        <h1 className="text-2xl font-bold">Roastify</h1>
+      </Link>
       <nav>
-        <Button>Sign in</Button>
-        <Button>Sign up</Button>
+        <Button>
+          <Link href="/login">Login</Link>
+        </Button>
       </nav>
     </header>
   );
