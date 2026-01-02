@@ -9,6 +9,17 @@ export const auth = betterAuth({
     provider: "pg", // or "pg" or "mysql"
     schema: authSchema,
   }),
+
+  plugins: [nextCookies()],
+
+  account: {
+    accountLinking: {
+      enabled: true,
+      allowDifferentEmails: true,
+      trustedProviders: ["google", "github", "spotify"],
+    },
+  },
+
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -25,11 +36,8 @@ export const auth = betterAuth({
         "user-read-email",
         "user-read-private",
         "user-top-read",
-        "playlist-read-private",
-        "playlist-read-collaborative",
         "user-read-recently-played",
       ],
     },
   },
-  plugins: [nextCookies()],
 });

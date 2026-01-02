@@ -5,11 +5,10 @@ import { buildSignals } from "@/lib/spotify-roast-engine/spotify-signals";
 import { ArtistItem, PlayHistoryItem, TrackItem } from "@/types/types";
 import { useState } from "react";
 
-const RoastPage = () => {
+export const RoastComponent = () => {
   const [roasts, setRoasts] = useState<string[]>([]);
 
   const getRoast = async () => {
-    // Logic to get roast data
     const topTracks: TrackItem[] = await fetch("api/spotify/top-tracks").then(
       (res) => res.json()
     );
@@ -23,15 +22,13 @@ const RoastPage = () => {
     const signals = buildSignals({ topTracks, topArtists, recentlyPlayed });
 
     const roasts = generateRoasts(signals);
-    console.log(roasts);
-    
     setRoasts(roasts);
   };
 
   return (
-    <div>
+    <div className="p-4 border rounded-md w-full">
       <h1>Welcome to the Roast Page</h1>
-      <div>
+      <div className="space-y-4 flex items-center justify-center w-full mt-4 flex-col">
         <Button onClick={getRoast}>Get Roast</Button>
         {roasts.map((roast, index) => (
           <p key={index}>{roast}</p>
@@ -40,5 +37,3 @@ const RoastPage = () => {
     </div>
   );
 };
-
-export default RoastPage;
