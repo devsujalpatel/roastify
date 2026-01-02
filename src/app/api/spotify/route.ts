@@ -11,7 +11,10 @@ export async function GET() {
     });
 
     if (!sessionData) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+      return NextResponse.json(
+        { connected: false, reason: "not_authenticated" },
+        { status: 401 }
+      );
     }
 
     const userId = sessionData.user.id;
@@ -25,8 +28,8 @@ export async function GET() {
 
     if (!accessToken) {
       return NextResponse.json(
-        { error: "Connect your Spotify account" },
-        { status: 401 }
+        { connected: false, reason: "no_access_token" },
+        { status: 200 }
       );
     }
 
