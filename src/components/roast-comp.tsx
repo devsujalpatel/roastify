@@ -31,7 +31,9 @@ export const RoastComponent = () => {
       <div className="space-y-4 flex items-center justify-center w-full mt-4 flex-col">
         <Button onClick={getRoast}>Get Roast</Button>
         {roasts.map((roast, index) => (
-          <p key={index}>{roast}</p>
+          <div key={index} className="p-4 border rounded-md w-full">
+            <p>{roast}</p>
+          </div>
         ))}
       </div>
     </div>
