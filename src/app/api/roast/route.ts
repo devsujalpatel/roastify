@@ -3,6 +3,9 @@ import { streamText } from "ai";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { buildSignals } from "@/lib/spotify-roast-engine/spotify-signals";
+import { db } from "@/config";
+import { user } from "@/db/auth-schema";
+import { eq } from "drizzle-orm";
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
@@ -24,6 +27,23 @@ export async function POST() {
     }
 
     const userId = sessionData.user.id;
+
+    // Check if user is invited
+    const userData = await db
+      .select({ isInvited: user.isInvited })
+      .from(user)
+      .where(eq(user.id, userId))
+      .limit(1);
+
+    if (!userData.length || !userData[0].isInvited) {
+      return new Response(
+        JSON.stringify({
+          error:
+            "You are not invited. DM @sujalpatelcoder on Twitter for access.",
+        }),
+        { status: 403 }
+      );
+    }
 
     // Get Spotify access token
     const { accessToken } = await auth.api.getAccessToken({
