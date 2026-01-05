@@ -4,7 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { ArrowRight, BarChart3, Lock, Share2, Zap } from "lucide-react";
+import { ArrowRight, BarChart3, Share2, Zap } from "lucide-react";
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
 
       <main className="flex flex-col items-center">
         {/* Hero Section */}
-        <section className="relative flex w-full flex-col items-center justify-center overflow-hidden px-4 pt-24 pb-32 sm:pt-32 sm:pb-40">
+        <section className="relative flex w-full flex-col items-center justify-center overflow-hidden px-4 pt-32 pb-32 sm:pt-40 sm:pb-40">
           <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
           <motion.div
@@ -70,8 +70,8 @@ export default function Page() {
               Why let us roast you?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our AI doesn't just look at usage; it understands the soul of your
-              playlists.
+              Our AI doesn&apos;t just look at usage; it understands the soul of
+              your playlists.
             </p>
           </div>
 
@@ -88,8 +88,8 @@ export default function Page() {
                 Ruthless AI
               </h3>
               <p className="text-muted-foreground">
-                Our model doesn't hold back. It finds your guilty pleasures and
-                puts them front and center.
+                Our model doesn&apos;t hold back. It finds your guilty pleasures
+                and puts them front and center.
               </p>
             </motion.div>
 

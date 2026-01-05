@@ -50,9 +50,11 @@ export async function GET() {
     const data = await res.json();
 
     return NextResponse.json({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       items: data.items.map((track: any) => ({
         id: track.id,
         name: track.name,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         artists: track.artists.map((a: any) => a.name),
         popularity: track.popularity,
         durationMs: track.duration_ms,

@@ -50,16 +50,16 @@ export async function GET() {
     const data = await res.json();
 
     return NextResponse.json({
-      items: data.items.map((item: any) => {
-        const playedAt = new Date(item.played_at);
-        return {
-          track: item.track.name,
-          artists: item.track.artists.map((a: any) => a.name),
-          playedAt: item.played_at,
-          hour: playedAt.getHours(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      items: data.items.map((item: any) => ({
+        track: {
+          name: item.track.name,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          artists: item.track.artists.map((a: any) => ({ name: a.name })),
           popularity: item.track.popularity,
-        };
-      }),
+        },
+        played_at: item.played_at,
+      })),
     });
   } catch (err) {
     console.error(err);
