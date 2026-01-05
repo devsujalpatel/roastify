@@ -50,14 +50,16 @@ export async function GET() {
     const data = await res.json();
 
     return NextResponse.json({
-      items: data.items.map((artist: any, index: number) => ({
-        rank: index + 1,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      items: data.items.map((artist: any) => ({
         id: artist.id,
         name: artist.name,
         genres: artist.genres,
         popularity: artist.popularity,
-        followers: artist.followers?.total,
-        image: artist.images?.[0]?.url,
+        followers: {
+          total: artist.followers.total,
+        },
+        images: artist.images,
       })),
     });
   } catch (err) {
