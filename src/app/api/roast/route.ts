@@ -3,9 +3,11 @@ import { streamText } from "ai";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { buildSignals } from "@/lib/spotify-roast-engine/spotify-signals";
+import { generateRoasts } from "@/lib/spotify-roast-engine/roast-rules";
 import { db } from "@/config";
 import { user } from "@/db/auth-schema";
 import { eq } from "drizzle-orm";
+import { ArtistItem, PlayHistoryItem, TrackItem } from "@/types/types";
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
@@ -89,11 +91,9 @@ export async function POST() {
     ]);
 
     // Transform the data
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const topTracks = tracksData.items.map((track: any) => ({
+    const topTracks: TrackItem[] = tracksData.items.map((track: any) => ({
       id: track.id,
       name: track.name,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       artists: track.artists.map((a: any) => a.name),
       popularity: track.popularity,
       durationMs: track.duration_ms,
@@ -104,50 +104,66 @@ export async function POST() {
       },
     }));
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const topArtists = artistsData.items.map((artist: any, index: number) => ({
-      rank: index + 1,
-      id: artist.id,
-      name: artist.name,
-      genres: artist.genres,
-      popularity: artist.popularity,
-      followers: artist.followers?.total ?? 0,
-      image: artist.images?.[0]?.url,
-    }));
+    const topArtists: ArtistItem[] = artistsData.items.map(
+      (artist: any, index: number) => ({
+        rank: index + 1,
+        id: artist.id,
+        name: artist.name,
+        genres: artist.genres,
+        popularity: artist.popularity,
+        followers: artist.followers?.total ?? 0,
+        image: artist.images?.[0]?.url,
+      })
+    );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const recentlyPlayed = recentData.items.map((item: any) => ({
-      track: item.track.name,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      artists: item.track.artists.map((a: any) => a.name),
-      playedAt: item.played_at,
-      hour: new Date(item.played_at).getHours(),
-      popularity: item.track.popularity,
-    }));
+    const recentlyPlayed: PlayHistoryItem[] = recentData.items.map(
+      (item: any) => ({
+        track: item.track.name,
+        artists: item.track.artists.map((a: any) => a.name),
+        playedAt: item.played_at,
+        hour: new Date(item.played_at).getHours(),
+        popularity: item.track.popularity,
+      })
+    );
 
     // Build signals for context
     const signals = buildSignals({ topTracks, topArtists, recentlyPlayed });
 
+    const ruleBasedRoasts = generateRoasts(signals);
+
     // Create a rich prompt for the AI
-    const prompt = `You are a brutally honest, witty music critic who roasts people's Spotify listening habits in a hilarious but not mean-spirited way. You speak in a casual, Gen-Z friendly tone mixing English with occasional Hindi slang.
+    const prompt = `
+You are a ruthless, unfiltered music elitist whose full-time job is to roast people's Spotify taste into dust.
+You do NOT care about feelings. You roast like a sarcastic Gen-Z friend who has known them for years.
+Tone: savage, mocking, brutally honest.
+Language: Hinglish + English, casual Indian slang allowed.
+Style: short, punchy, disrespectful but funny. No moral lectures.
 
-Based on this person's Spotify data, generate 3-5 savage but funny roasts:
+Based on this user's Spotify data, generate 3–5 absolutely brutal but hilarious roasts.
 
-**Top Artists:**
+RULES:
+- No compliments. If something is basic, call it basic.
+- If they repeat the same artist, bully them for it.
+- If music is sad, act concerned but mockingly.
+- If taste is mainstream, expose them.
+- If taste is obscure, call them pretentious.
+- Roast the person, not just the music.
+- Sound like you're judging them silently since 2018.
+
+––––––––––––––
+TOP ARTISTS:
 ${topArtists
   .slice(0, 5)
   .map(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (a: any, i: number) =>
       `${i + 1}. ${a.name} (${a.genres.slice(0, 3).join(", ")})`
   )
   .join("\n")}
 
-**Top Tracks:**
+TOP TRACKS:
 ${topTracks
   .slice(0, 5)
   .map(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (t: any, i: number) =>
       `${i + 1}. "${t.name}" by ${t.artists.join(", ")} (Popularity: ${
         t.popularity
@@ -155,22 +171,27 @@ ${topTracks
   )
   .join("\n")}
 
-**Listening Patterns:**
-- Top artist obsession score: ${(signals.obsessionScore * 100).toFixed(
-      0
-    )}% of their music is ${signals.topArtistName}
-- Night owl listener: ${signals.nightOwl ? "Yes, listens at 2-4 AM" : "No"}
-- Average track popularity: ${signals.avgPopularity.toFixed(0)}/100
-- Sad music enjoyer: ${signals.sadBoi ? "Yes" : "No"}
+LISTENING PATTERNS:
+- ${signals.obsessionScore * 100}% of their life is dedicated to ${
+      signals.topArtistName
+    }
+- Night owl listener: ${
+      signals.nightOwl ? "Yes (emotionally unstable hours)" : "No"
+    }
+- Average popularity: ${signals.avgPopularity}/100
+- Sad music addict: ${signals.sadBoi ? "Yes (mentally checked out)" : "No"}
 
-Generate roasts that:
-1. Reference specific artists/songs they listen to
-2. Call out their listening patterns (night owl, mainstream/underground, etc.)
-3. Are funny and relatable
-4. Use emojis sparingly but effectively
-5. Each roast should be 1-2 sentences max
+––––––––––––––
+OUTPUT RULES:
+- Each roast: 1–2 sentences MAX.
+- Each roast must reference something specific (artist, song, habit).
+- Use emojis only if it adds insult (💀🤡😭).
+- No generic jokes. Make it personal.
+- Number each roast from 1 to 5.
+- End each roast like you just dropped the mic and walked away.
 
-Format: Return each roast on a new line, numbered 1-5. Be creative and savage!`;
+Now roast them like they asked for it.
+`;
 
     const result = streamText({
       model: groq("llama-3.1-8b-instant"),

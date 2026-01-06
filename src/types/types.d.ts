@@ -1,6 +1,6 @@
 export interface Album {
   name: string;
-  image: string;
+  image?: string; // Spotify kabhi-kabhi image nahi deta
 }
 
 export interface TrackItem {
@@ -12,6 +12,7 @@ export interface TrackItem {
   previewUrl: string | null;
   album: Album;
 }
+
 export interface ArtistItem {
   rank: number;
   id: string;
@@ -19,7 +20,7 @@ export interface ArtistItem {
   genres: string[];
   popularity: number;
   followers: number;
-  image: string;
+  image?: string;
 }
 
 export interface PlayHistoryItem {
