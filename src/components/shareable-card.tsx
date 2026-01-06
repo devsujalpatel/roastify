@@ -104,19 +104,19 @@ export const ShareableCard = ({ roast, onClose }: ShareableCardProps) => {
           {/* The Card - This is what gets captured */}
           <div
             ref={cardRef}
-            className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-red-500 to-purple-600 p-1"
+            className="relative overflow-hidden rounded-2xl bg-linear-to-br from-orange-500 via-red-500 to-purple-600 p-1"
           >
-            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+            <div className="relative overflow-hidden rounded-xl bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:20px_20px]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-size-[20px_20px]" />
               </div>
 
               {/* Content */}
               <div className="relative space-y-4">
                 {/* Header */}
                 <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-orange-500 to-red-600">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-tr from-orange-500 to-red-600">
                     <Flame className="h-4 w-4 text-white fill-white" />
                   </div>
                   <span className="text-lg font-bold text-white">Roastify</span>
@@ -165,7 +165,7 @@ export const ShareableCard = ({ roast, onClose }: ShareableCardProps) => {
             <Button
               onClick={handleCopyForInstagram}
               className={cn(
-                "flex-1 gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white",
+                "flex-1 gap-2 bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white",
                 "transition-all hover:scale-[1.02] active:scale-[0.98]"
               )}
             >
