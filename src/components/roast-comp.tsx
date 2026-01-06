@@ -133,12 +133,12 @@ export const RoastComponent = () => {
                     >
                       <div className="absolute top-0 left-0 h-full w-1 bg-linear-to-b from-orange-500 to-red-600" />
                       <div className="flex items-start justify-between gap-3">
-                        <p className="pl-3 text-sm leading-relaxed flex-1">
+                        <p className="pl-3 text-sm md:text-base lg:text-lg leading-relaxed flex-1">
                           {roast}
                         </p>
                         <button
                           onClick={() => setSelectedRoast(roast)}
-                          className="shrink-0 p-2 rounded-lg hover:bg-white/10 transition-all"
+                          className="shrink-0 p-2 rounded-lg hover:bg-white/10 transition-all cursor-pointer"
                           title="Share this roast"
                         >
                           <Share2 className="h-4 w-4 text-muted-foreground hover:text-orange-500" />
