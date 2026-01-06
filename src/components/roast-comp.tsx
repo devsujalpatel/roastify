@@ -46,7 +46,7 @@ export const RoastComponent = () => {
       <Card className="border-border/50 bg-background/80 backdrop-blur-sm overflow-hidden">
         <CardHeader className="pb-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-tr from-orange-500/20 to-red-500/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-tr from-orange-500/20 to-red-500/20">
               <Flame className="h-5 w-5 text-orange-500" />
             </div>
             <div>
@@ -62,7 +62,7 @@ export const RoastComponent = () => {
             onClick={handleGenerateRoast}
             disabled={isLoading}
             className={cn(
-              "gap-2 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white transition-all",
+              "gap-2 bg-linear-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white transition-all",
               "hover:scale-[1.02] active:scale-[0.98] shadow-lg",
               isLoading && "opacity-70"
             )}
@@ -131,14 +131,14 @@ export const RoastComponent = () => {
                       transition={{ delay: index * 0.1 }}
                       className="group relative overflow-hidden rounded-xl border bg-muted/30 p-4"
                     >
-                      <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-orange-500 to-red-600" />
+                      <div className="absolute top-0 left-0 h-full w-1 bg-linear-to-b from-orange-500 to-red-600" />
                       <div className="flex items-start justify-between gap-3">
                         <p className="pl-3 text-sm leading-relaxed flex-1">
                           {roast}
                         </p>
                         <button
                           onClick={() => setSelectedRoast(roast)}
-                          className="shrink-0 p-2 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-white/10 transition-all"
+                          className="shrink-0 p-2 rounded-lg hover:bg-white/10 transition-all"
                           title="Share this roast"
                         >
                           <Share2 className="h-4 w-4 text-muted-foreground hover:text-orange-500" />
@@ -148,7 +148,7 @@ export const RoastComponent = () => {
                   ))
                 ) : isLoading && completion ? (
                   <div className="relative overflow-hidden rounded-xl border bg-muted/30 p-4">
-                    <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-orange-500 to-red-600 animate-pulse" />
+                    <div className="absolute top-0 left-0 h-full w-1 bg-linear-to-b from-orange-500 to-red-600 animate-pulse" />
                     <p className="pl-3 text-sm leading-relaxed whitespace-pre-wrap">
                       {completion}
                       <span className="inline-block w-2 h-4 bg-orange-500 animate-pulse ml-1" />
